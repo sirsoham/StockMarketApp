@@ -1,0 +1,38 @@
+import java.util.*;
+import java.io.*;
+
+
+public class StockMarketApp {
+
+	static Scanner	sc;
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		String input;
+		System.out.println("Welcome1! What would you like to do today?");
+		System.out.println("- Create a new Portfolio: type 'Create'");
+		System.out.println("- Load an existing Portfolio: type 'Load'");
+		System.out.println("- Exit: type 'Exit'");
+		
+		input = sc.next();
+		switch(input){
+		case "Create":
+			break;
+		case "Load":
+			break;
+		case "Exit":
+			System.exit(0);
+		default:
+			System.out.println("Invalid command. Please try again:");
+		}
+
+	}
+	
+	
+	
+		
+		
+	}
+
+

@@ -1,0 +1,100 @@
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.TreeMap;
+
+public class Portfolio implements Collection<Stock>{
+	TreeMap<String,Stock> portfolio = new TreeMap<String,Stock>();
+	
+	@Override
+	public boolean add(Stock stock) {
+		portfolio.put(stock.getName(), stock);
+		return true;
+	}
+
+	@Override
+	public boolean addAll(Collection<? extends Stock> portfolio) {
+		for(Stock stock:portfolio){
+			this.portfolio.put(stock.getName(), stock);
+		}
+		return true;
+	}
+
+	@Override
+	public void clear() {
+		portfolio.clear();
+	}
+
+	@Override
+	public boolean contains(Object stockname) {
+		return portfolio.containsKey(stockname);
+	}
+
+	@Override
+	public boolean containsAll(Collection<?> portfolio) {
+		for (Object stock:portfolio){
+			if (!this.portfolio.containsKey(stock)){
+				return false;
+			}
+		} 
+		return true;
+	}
+	@Override
+	public boolean isEmpty() {
+		if (portfolio.size() == 0){
+			return true;
+		}else{
+		return false;}
+	}
+
+	@Override
+	public Iterator<Stock> iterator() {
+		this.portfolio.values().iterator();
+		return null;
+	}
+	
+	@Override
+	public boolean remove(Object stockname) {
+		portfolio.remove(stockname);
+		return true;
+	}
+
+	@Override
+	public boolean removeAll(Collection<?> portfolio) {
+		for(Object stock:portfolio){
+			portfolio.remove(stock);
+		}
+		return true;
+	}
+
+	@Override
+	public boolean retainAll(Collection<?> portfolio) {
+		for(Object stock:portfolio){
+			if (!this.portfolio.containsKey(stock)){
+				this.portfolio.remove(stock);
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public int size() {
+		return portfolio.size();
+	}
+
+	@Override
+	public Object[] toArray() {
+		return portfolio.values().toArray();
+	}
+
+	@Override
+	public <T> T[] toArray(T[] a) {
+		//TODO
+		return null;
+	}
+	
+	public Stock get(String stockName) {
+		return this.portfolio.get(stockName); 
+	}
+
+
+}

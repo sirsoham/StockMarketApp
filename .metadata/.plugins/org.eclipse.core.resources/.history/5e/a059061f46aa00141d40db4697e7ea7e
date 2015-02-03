@@ -1,0 +1,97 @@
+import java.util.*;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+
+public class StockMarketApp {
+
+	static Scanner	sc;
+	public static final Portfolio portfolio = new Portfolio();
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		String input;
+		System.out.println("Welcome! What would you like to do today?");
+		System.out.println("- Add Stock: type 'Add'");
+		System.out.println("- Remove Stock: type 'Remove'");
+		System.out.println("- Exit: type 'Exit'");
+		
+		input = sc.next();
+		switch(input){
+		case "Add":
+			addStock();
+			break;
+		case "Remove":
+			removeStock();
+			break;
+		case "Exit":
+			System.exit(0);
+		default:
+			System.out.println("Invalid command. Please try again:");
+			}
+
+	}
+	
+	private static void addStock() {
+		System.out.println("What is the name of the stock you would like to add?");
+		String stockName = sc.next();
+		String symbol = symbol(stockName);
+		double price = getPrice(symbol);
+		System.out.println("Current price of "+stockName+" stock is: "+price);
+		System.out.println("How much of " + stockName + " stock would you like to add?");
+		String quant = sc.next();
+		int quantity = Integer.parseInt(quant);
+		if (!portfolio.contains(stockName)){
+			Stock stock = new Stock(stockName, quantity);
+			portfolio.add(stock);
+		}else{
+		Stock stock = portfolio.get(stockName);
+		stock.setQuantity(stock.getQuantity() + quantity);
+		portfolio.add(stock);
+		}
+		double total = price * quantity;
+		System.out.println("Your cost for this transaction is: $"+total);
+	}
+	
+	private static void removeStock() {
+		System.out.println("What is the name of the stock you would like to remove?");
+		String stockName = sc.next();
+		String symbol = symbol(stockName);
+		double price = getPrice(symbol);
+		System.out.println("Current price of "+stockName+" stock is: "+price);
+		System.out.println("How much of " + stockName + "stock would you like to remove?");
+		String quant = sc.next();
+		int quantity = Integer.parseInt(quant);
+		Stock stock = portfolio.get(stockName);
+		if(stock.getQuantity()<quantity){
+			System.out.println("Warning! More stock than you have. Removing all stock");
+			quantity = stock.getQuantity();
+		}
+		stock.setQuantity(stock.getQuantity() - quantity);
+		stock.setPrice(price);
+		portfolio.add(stock);
+	} 
+	
+	
+	private static String symbol(String stockName) {
+		Document doc = Jsoup.parse("http://d.yimg.com/autoc.finance.yahoo.com/autoc?query="+stockName+"&callback=YAHOO.Finance.SymbolSuggest.ssCallback");
+		String str = doc.toString();
+		String delims = "[.,:]+";
+		String[] terms = str.split(delims);
+		return terms[8];
+	}
+	
+	private static double getPrice(String symbol) {
+		Document doc = Jsoup.parse("http://finance.google.com/finance/info?client=ig&q=NASDAQ%3a"+symbol);
+		String str = doc.toString();
+		String delims = "[:,]+";
+		String[]terms = str.split(delims);
+		return Double.parseDouble(terms[7]);
+		
+	}
+			
+}
+
+

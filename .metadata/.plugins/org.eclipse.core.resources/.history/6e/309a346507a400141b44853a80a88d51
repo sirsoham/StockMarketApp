@@ -1,0 +1,23 @@
+import java.util.*;
+import java.io.*;
+
+
+public class StockMarketApp {
+
+	static Scanner	sc;
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		String input;
+		System.out.println("Welcome1! What would you like to do today?");
+		System.out.println("- Create a new Portfolio");
+		System.out.println("- Load an existing Portfolio");
+		System.out.println("- Exit");
+		
+		input = sc.next();
+		
+
+	}
+
+}
